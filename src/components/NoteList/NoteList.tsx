@@ -1,15 +1,8 @@
+import type { NoteTag } from "../types/note";
 import css from "./NoteList.module.css";
 
-interface Note {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  tag: string;
-}
 interface NoteListProps {
-  data: Note[];
+  data: NoteTag[];
 }
 
 export default function NoteList({ data }: NoteListProps) {
