@@ -4,9 +4,15 @@ import { fetchNotes } from "../services/noteService";
 import NoteList from "../NoteList/NoteList";
 import { useState } from "react";
 import Pagination from "../Pagination/Pagination";
+import Modal from "../Modal/Modal";
+import NoteForm from "../NoteForm/NoteForm";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const openModal = () => setIsOpenModal(true);
+  const closeModal = () => setIsOpenModal(false);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", currentPage],
@@ -20,10 +26,6 @@ function App() {
 
   return (
     <div className={css.app}>
-      {/* <button onClick={() => setCurrentPage(currentPage + 1)}>
-        Load more{currentPage}
-      </button> */}
-
       <header className={css.toolbar}>
         {/* Компонент SearchBox */}
         {/* Пагінація */}
@@ -33,9 +35,16 @@ function App() {
         {isLoading && <p>Loading data..</p>}
         {isError && <p>Error!!!!!!!!!</p>}
         {/* Кнопка створення нотатки */}
+        <button className={css.button} onClick={openModal}>
+          Create note +
+        </button>
       </header>
-
       {data && data.notes.length > 0 && <NoteList data={data.notes} />}
+      {isOpenModal && (
+        <Modal onClose={closeModal}>
+          <NoteForm onEnd={closeModal} />
+        </Modal>
+      )}
     </div>
   );
 }
