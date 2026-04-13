@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import css from "./NoteForm.module.css";
-import { createNote } from "../services/noteService";
+import { createNote } from "../../services/noteService";
 import { Field, Form, Formik, type FormikHelpers, ErrorMessage } from "formik";
 
 // namespace import
