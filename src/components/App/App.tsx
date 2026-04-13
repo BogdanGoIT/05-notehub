@@ -42,7 +42,11 @@ function App() {
         <SearchBox text={search} value={setSearch} />
         {/* Пагінація */}
         {isSuccess && totalPages > 1 && (
-          <Pagination totalPages={totalPages} setPage={setCurrentPage} />
+          <Pagination
+            totalPages={totalPages}
+            setPage={setCurrentPage}
+            page={currentPage}
+          />
         )}
         {isLoading && <p>Loading data..</p>}
         {isError && <p>Error!!!!!!!!!</p>}

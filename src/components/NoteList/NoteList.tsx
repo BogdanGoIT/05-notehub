@@ -8,7 +8,6 @@ interface NoteListProps {
 }
 
 export default function NoteList({ notes }: NoteListProps) {
-  console.log(notes);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
