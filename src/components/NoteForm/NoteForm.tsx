@@ -5,21 +5,31 @@ import { Field, Form, Formik, type FormikHelpers, ErrorMessage } from "formik";
 
 // namespace import
 import * as Yup from "yup";
-import type { CreateNoteProps } from "../../types/note";
+import type { NoteTag } from "../../types/note";
 
 interface NoteFormProps {
   onEnd: () => void;
 }
 
+interface FormValues {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}
+
 const NoteFormSchema = Yup.object().shape({
   title: Yup.string().min(3).max(50).required(),
-  content: Yup.string().max(50),
+  content: Yup.string().max(500),
   tag: Yup.string()
     .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"])
     .required(),
 });
 
-const initialValues: CreateNoteProps = { title: "", content: "", tag: "" };
+const initialValues: FormValues = {
+  title: "",
+  content: "",
+  tag: "" as NoteTag,
+};
 
 export default function NoteForm({ onEnd }: NoteFormProps) {
   const queryClient = useQueryClient();
@@ -33,8 +43,8 @@ export default function NoteForm({ onEnd }: NoteFormProps) {
   });
 
   const handleSubmit = (
-    values: CreateNoteProps,
-    action: FormikHelpers<CreateNoteProps>,
+    values: FormValues,
+    action: FormikHelpers<FormValues>,
   ) => {
     mutation.mutate({
       title: values.title,

@@ -1,10 +1,10 @@
 export type NoteTag =
-  | ""
   | "Todo"
   | "Work"
   | "Personal"
   | "Meeting"
-  | "Shopping";
+  | "Shopping"
+  | "";
 
 export interface Note {
   id: string;
@@ -12,16 +12,5 @@ export interface Note {
   content: string;
   createdAt: string;
   updatedAt: string;
-  tag: string;
-}
-
-export interface NotesResponse {
-  notes: Note[];
-  totalPages?: number;
-}
-
-export interface CreateNoteProps {
-  title: string;
-  content: string;
   tag: NoteTag;
 }
