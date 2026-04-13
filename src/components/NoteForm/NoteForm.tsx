@@ -5,16 +5,10 @@ import { Field, Form, Formik, type FormikHelpers, ErrorMessage } from "formik";
 
 // namespace import
 import * as Yup from "yup";
-import type { NoteTag } from "../../types/note";
+import type { CreateNoteProps, NoteTag } from "../../types/note";
 
 interface NoteFormProps {
   onEnd: () => void;
-}
-
-interface FormValues {
-  title: string;
-  content: string;
-  tag: NoteTag;
 }
 
 const NoteFormSchema = Yup.object().shape({
@@ -25,7 +19,7 @@ const NoteFormSchema = Yup.object().shape({
     .required(),
 });
 
-const initialValues: FormValues = {
+const initialValues: CreateNoteProps = {
   title: "",
   content: "",
   tag: "" as NoteTag,
@@ -43,8 +37,8 @@ export default function NoteForm({ onEnd }: NoteFormProps) {
   });
 
   const handleSubmit = (
-    values: FormValues,
-    action: FormikHelpers<FormValues>,
+    values: CreateNoteProps,
+    action: FormikHelpers<CreateNoteProps>,
   ) => {
     mutation.mutate({
       title: values.title,
