@@ -1,4 +1,12 @@
-export interface NoteTag {
+export type NoteTag =
+  | ""
+  | "Todo"
+  | "Work"
+  | "Personal"
+  | "Meeting"
+  | "Shopping";
+
+export interface Note {
   id: string;
   title: string;
   content: string;
@@ -7,7 +15,13 @@ export interface NoteTag {
   tag: string;
 }
 
-export interface Note {
-  notes: NoteTag[];
+export interface NotesResponse {
+  notes: Note[];
   totalPages?: number;
+}
+
+export interface CreateNoteProps {
+  title: string;
+  content: string;
+  tag: NoteTag;
 }

@@ -5,15 +5,10 @@ import { Field, Form, Formik, type FormikHelpers, ErrorMessage } from "formik";
 
 // namespace import
 import * as Yup from "yup";
+import type { CreateNoteProps } from "../../types/note";
 
 interface NoteFormProps {
   onEnd: () => void;
-}
-
-interface FormikProps {
-  title: string;
-  content: string;
-  tag: "" | "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 }
 
 const NoteFormSchema = Yup.object().shape({
@@ -24,7 +19,7 @@ const NoteFormSchema = Yup.object().shape({
     .required(),
 });
 
-const initialValues: FormikProps = { title: "", content: "", tag: "" };
+const initialValues: CreateNoteProps = { title: "", content: "", tag: "" };
 
 export default function NoteForm({ onEnd }: NoteFormProps) {
   const queryClient = useQueryClient();
@@ -38,8 +33,8 @@ export default function NoteForm({ onEnd }: NoteFormProps) {
   });
 
   const handleSubmit = (
-    values: FormikProps,
-    action: FormikHelpers<FormikProps>,
+    values: CreateNoteProps,
+    action: FormikHelpers<CreateNoteProps>,
   ) => {
     mutation.mutate({
       title: values.title,
