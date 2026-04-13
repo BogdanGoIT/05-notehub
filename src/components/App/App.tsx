@@ -25,7 +25,19 @@ function App() {
     localStorage.setItem("modal-state", JSON.stringify(isOpenModal));
   }, [isOpenModal]);
 
-  const handleSearch = useDebouncedCallback(setSearch, 300);
+  // В2 скидання сторінки через:
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [search]);
+
+  // 1. Створюємо дебаунс-функцію ТІЛЬКИ для setSearch
+  const debouncedSearch = useDebouncedCallback(setSearch, 300);
+
+  // 2. Створюємо звичайну функцію-обробник
+  const handleSearch = (v: string) => {
+    debouncedSearch(v); // Оновлюємо пошук через 300мс
+    setCurrentPage(1); // Скидаємо сторінку МИТТЄВО
+  };
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", currentPage, search],
