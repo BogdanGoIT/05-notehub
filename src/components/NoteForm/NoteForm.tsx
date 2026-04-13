@@ -41,7 +41,6 @@ export default function NoteForm({ onEnd }: NoteFormProps) {
     values: FormikProps,
     action: FormikHelpers<FormikProps>,
   ) => {
-    console.log("submit", values);
     mutation.mutate({
       title: values.title,
       content: values.content,

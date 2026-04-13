@@ -28,13 +28,12 @@ interface CreteNoteProps {
 // POST /notes {}
 
 export async function createNote(newNote: CreteNoteProps) {
-  const res = await axios.post<NoteTag>("/notes", newNote, {
+  const res = await axios.post<CreteNoteProps>("/notes", newNote, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  console.log("POST", res.data);
   return res.data;
 }
 
@@ -47,6 +46,5 @@ export async function deleteNote(noteId: string) {
     },
   });
 
-  console.log("DELETE", res.data);
   return res.data;
 }

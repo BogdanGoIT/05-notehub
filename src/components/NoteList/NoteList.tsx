@@ -1,13 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { NoteTag } from "../types/note";
 import css from "./NoteList.module.css";
 import { deleteNote } from "../services/noteService";
+import type { Note } from "../types/note";
 
-interface NoteListProps {
-  data: NoteTag[];
-}
-
-export default function NoteList({ data }: NoteListProps) {
+export default function NoteList({ notes }: Note) {
+  // console.log(notes);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -19,7 +16,7 @@ export default function NoteList({ data }: NoteListProps) {
   return (
     <ul className={css.list}>
       {/* Набір елементів списку нотаток */}
-      {data?.map((note) => {
+      {notes.map((note) => {
         return (
           <li className={css.listItem} key={note.id}>
             <h2 className={css.title}>{note.title}</h2>

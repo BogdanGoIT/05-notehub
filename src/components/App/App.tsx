@@ -10,15 +10,19 @@ import SearchBox from "../SearchBox/SearchBox";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [isOpenModal, setIsOpenModal] = useState(false);
   const [search, setSearch] = useState("");
+  const [isOpenModal, setIsOpenModal] = useState(() => {
+    const savedState = localStorage.getItem("modal-state");
+    if (savedState !== null) {
+      return JSON.parse(savedState);
+    }
+    return false;
+  });
 
+  // state init > jsx > effect
   useEffect(() => {
-    console.log("Make HTTP Request", search);
-  }, [search]);
-
-  const openModal = () => setIsOpenModal(true);
-  const closeModal = () => setIsOpenModal(false);
+    localStorage.setItem("modal-state", JSON.stringify(isOpenModal));
+  }, [isOpenModal]);
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", currentPage, search],
@@ -26,7 +30,8 @@ function App() {
     placeholderData: keepPreviousData,
   });
 
-  console.log(data);
+  const openModal = () => setIsOpenModal(true);
+  const closeModal = () => setIsOpenModal(false);
 
   const totalPages = data?.totalPages ?? 0;
 
@@ -46,7 +51,7 @@ function App() {
           Create note +
         </button>
       </header>
-      {data && data.notes.length > 0 && <NoteList data={data.notes} />}
+      {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {isOpenModal && (
         <Modal onClose={closeModal}>
           <NoteForm onEnd={closeModal} />
