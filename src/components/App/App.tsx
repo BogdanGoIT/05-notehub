@@ -7,6 +7,7 @@ import Modal from "../Modal/Modal";
 import NoteForm from "../NoteForm/NoteForm";
 import SearchBox from "../SearchBox/SearchBox";
 import { fetchNotes } from "../../services/noteService";
+import { useDebouncedCallback } from "use-debounce";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,16 +25,13 @@ function App() {
     localStorage.setItem("modal-state", JSON.stringify(isOpenModal));
   }, [isOpenModal]);
 
+  const handleSearch = useDebouncedCallback(setSearch, 300);
+
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", currentPage, search],
     queryFn: () => fetchNotes(currentPage, search),
     placeholderData: keepPreviousData,
   });
-
-  const handleSearch = (v: string) => {
-    setSearch(v);
-    setCurrentPage(1);
-  };
 
   const openModal = () => setIsOpenModal(true);
   const closeModal = () => setIsOpenModal(false);
@@ -44,7 +42,7 @@ function App() {
     <div className={css.app}>
       <header className={css.toolbar}>
         {/* Компонент SearchBox */}
-        <SearchBox text={search} value={handleSearch} />
+        <SearchBox text={search} onSearch={handleSearch} />
         {/* Пагінація */}
         {isSuccess && totalPages > 1 && (
           <Pagination
