@@ -30,6 +30,11 @@ function App() {
     placeholderData: keepPreviousData,
   });
 
+  const handleSearch = (v: string) => {
+    setSearch(v);
+    setCurrentPage(1);
+  };
+
   const openModal = () => setIsOpenModal(true);
   const closeModal = () => setIsOpenModal(false);
 
@@ -39,7 +44,7 @@ function App() {
     <div className={css.app}>
       <header className={css.toolbar}>
         {/* Компонент SearchBox */}
-        <SearchBox text={search} value={setSearch} />
+        <SearchBox text={search} value={handleSearch} />
         {/* Пагінація */}
         {isSuccess && totalPages > 1 && (
           <Pagination
